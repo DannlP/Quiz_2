@@ -1,0 +1,83 @@
+Tengo un error de migracion con la tabla conduce, pero parece que no 
+afecta 
+
+
+
+
+$driver = new \App\Models\TruckDriver([
+    'Dni' => '123456780',
+    'Poblacion' => 'Popayan',
+    'Nombre' => 'Daniel Lopez',
+    'tfno' => '123-1234',
+    'Direccion' => 'Vereda LT',
+    'Salario' => 2.000,
+]);
+$driver->save();
+
+
+$truck = new \App\Models\Truck([
+    'Matricula' => 'DAN123',
+    'Potencia' => '500',
+    'Modelo' => 'Cars',
+    'Tipo' => 'Carga',
+]);
+$truck->save();
+
+
+
+Para asignar al camión al conductor
+
+$driver->trucks()->attach($truck->Matricula);
+
+
+
+
+
+Para Verificar los camiones asignados al conductor
+
+$driver->trucks;
+
+
+
+
+Crear el paquete y asignarlo al conductor
+
+$package = new \App\Models\Package([
+    'Codigo' => 'PKG001',
+    'Descripcion' => 'XboxOne',
+    'Destinatario' => $driver->Dni,
+    'Direccion' => 'Vereda Tendidos',
+]);
+$package->save();
+
+
+
+Verificar los paquetes
+
+$driver->packages;
+
+
+
+Agregar una provincia
+
+$province = new \App\Models\Province([
+    'Codigo' => '2002',
+    'nombre' => 'San andres',
+]);
+$province->save();
+
+
+
+Verificar los conductores que pertenecen a popayan
+
+$driversInProvince = \App\Models\TruckDriver::where('Poblacion', 'Popayan')->get();
+
+
+
+
+Obtener el conductor del paquete
+$package->driver;
+
+
+
+
